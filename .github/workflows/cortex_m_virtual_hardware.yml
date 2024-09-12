@@ -49,14 +49,14 @@ jobs:
           sparse-checkout: |
               main/.ci/
 
+      - name: Directory structure after checkout
+        run: |
+          tree -L 7
+
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
         with: 
           config: "tflite-micro/ci/vcpkg-configuration.json"
-
-      - name: Directory structure after checkout
-        run: |
-          tree -L 7
 
   cortex_m_corstone_300:
     runs-on: ubuntu-latest
@@ -77,6 +77,10 @@ jobs:
         run: |
           pip install git+https://github.com/ARM-software/avhclient.git@v0.1.10
 
+      - name: Directory structure before checkout
+        run: |
+          tree -L 7
+
       - name: Checkout vcpkg-configuration file
         uses: actions/checkout@v4
         with:
@@ -84,6 +88,10 @@ jobs:
           sparse-checkout: |
             main/.ci/vcpkg-configuration.json
           path: tflite-micro/ci/
+
+      - name: Directory structure after checkout
+        run: |
+          tree -L 7
 
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
