@@ -47,7 +47,7 @@ jobs:
         with:
           repository: Arm-Examples/mlek-cmsis-pack-examples
           sparse-checkout: |
-            main/.ci/vcpkg-configuration.json
+            main/.ci/
           path: .ci/
 
       - name: Directory structure after checkout
@@ -87,7 +87,7 @@ jobs:
         with:
           repository: Arm-Examples/mlek-cmsis-pack-examples
           sparse-checkout: |
-            main/.ci/vcpkg-configuration.json
+            .ci/
           path: .ci/
 
       - name: Directory structure after checkout
