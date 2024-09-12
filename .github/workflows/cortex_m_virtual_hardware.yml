@@ -48,7 +48,7 @@ jobs:
           repository: Arm-Examples/mlek-cmsis-pack-examples
           sparse-checkout: |
             .ci/
-          path: ./
+          path: ./config
 
       - name: Directory structure after checkout
         run: |
@@ -57,7 +57,7 @@ jobs:
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
         with: 
-          config: ".ci/vcpkg-configuration.json"
+          config: "config/.ci/vcpkg-configuration.json"
 
   cortex_m_corstone_300:
     runs-on: ubuntu-latest
@@ -87,8 +87,8 @@ jobs:
         with:
           repository: Arm-Examples/mlek-cmsis-pack-examples
           sparse-checkout: |
-            ./.ci/
-          path: .ci/
+            .ci/
+          path: ./config
 
       - name: Directory structure after checkout
         run: |
