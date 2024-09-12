@@ -14,12 +14,6 @@ on:
   # Allow manually triggering of the workflow.
   workflow_dispatch: {}
 
-env:
-  AWS_DEFAULT_REGION: eu-west-1
-  AWS_S3_BUCKET_NAME: tensorflow-ci-1
-  AWS_IAM_PROFILE: Proj-s3-orta-vht-role
-  AWS_SECURITY_GROUP_ID: sg-03afe5ec007b4bcb0
-  AWS_SUBNET_ID: subnet-025b7baebd743a68b
 jobs:
   cortex_m_generic:
     runs-on: ubuntu-latest
@@ -29,28 +23,33 @@ jobs:
     if: |
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'schedule' && github.repository == 'tensorflow/tflite-micro')
+
     name: Cortex-M Generic
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Set up Python 3.10
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
       - name: Install AVH Client for Python
         run: |
-          pip install git+https://github.com/ARM-software/avhclient.git@v0.1
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::720528183931:role/Proj-vht-assume-role
-          aws-region: eu-west-1
-      - name: Execute test suite on Arm Virtual Hardware at AWS
-        run: |
-          avhclient -b aws execute --specfile ./tensorflow/lite/micro/tools/github/arm_virtual_hardware/cortex_m_generic_avh.yml
-      - name: Fetch results from Arm Virtual Hardware
-        run: |
-          cat ./tensorflow/lite/micro/tools/github/arm_virtual_hardware/cortex_m_generic.log
+          pip install git+https://github.com/ARM-software/avhclient.git@v0.1.10
 
+      - name: Checkout vcpkg-configuration file
+        uses: actions/checkout@v4
+        with:
+          repository: Arm-Examples/mlek-cmsis-pack-examples/main/.ci/
+          sparse-checkout: |
+              vcpkg-configuration.json
+          path: tflite-micro/ci/
+
+      - name: Install tools
+        uses: ARM-software/cmsis-actions/vcpkg@v1
+        with: 
+          config: "tflite-micro/ci/vcpkg-configuration.json"
 
   cortex_m_corstone_300:
     runs-on: ubuntu-latest
@@ -59,22 +58,27 @@ jobs:
       (github.event_name == 'schedule' && github.repository == 'tensorflow/tflite-micro')
     name: Cortex-M Corstone 300 (FVP)
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Set up Python 3.10
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::720528183931:role/Proj-vht-assume-role
-          aws-region: eu-west-1
+
       - name: Install AVH Client for Python
         run: |
-          pip install git+https://github.com/ARM-software/avhclient.git@v0.1.1
-      - name: Execute test suite on Arm Virtual Hardware at AWS
-        run: |
-          avhclient -b aws execute --specfile ./tensorflow/lite/micro/tools/github/arm_virtual_hardware/cortex_m_corstone_300_avh.yml
-      - name: Fetch results from Arm Virtual Hardware
-        run: |
-          cat ./tensorflow/lite/micro/tools/github/arm_virtual_hardware/corstone300.log
+          pip install git+https://github.com/ARM-software/avhclient.git@v0.1.10
+
+      - name: Checkout vcpkg-configuration file
+        uses: actions/checkout@v4
+        with:
+          repository: Arm-Examples/mlek-cmsis-pack-examples/main/.ci/
+          sparse-checkout: |
+            vcpkg-configuration.json
+          path: tflite-micro/ci/
+  
+      - name: Install tools
+        uses: ARM-software/cmsis-actions/vcpkg@v1
+        with: 
+          config: "tflite-micro/ci/vcpkg-configuration.json"
