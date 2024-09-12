@@ -47,8 +47,8 @@ jobs:
         with:
           repository: Arm-Examples/mlek-cmsis-pack-examples
           sparse-checkout: |
-            .ci/*
-          path: tree/main/.ci/
+            .ci/
+          path: tree/main/
 
       - name: Directory structure after checkout
         run: |
