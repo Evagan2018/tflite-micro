@@ -43,8 +43,7 @@ jobs:
         with:
           repository: Arm-Examples/mlek-cmsis-pack-examples
           sparse-checkout: |
-              /main/.ci/vcpkg-configuration.json
-          path: tflite-micro/ci/
+              /main/.ci/
 
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
@@ -73,8 +72,8 @@ jobs:
       - name: Checkout vcpkg-configuration file
         uses: actions/checkout@v4
         with:
-          repository: Arm-Examples/mlek-cmsis-pack-examples
           sparse-checkout: |
+          repository: Arm-Examples/mlek-cmsis-pack-examples          
             /main/.ci/vcpkg-configuration.json
           path: tflite-micro/ci/
 
