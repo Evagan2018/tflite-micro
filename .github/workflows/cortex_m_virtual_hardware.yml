@@ -40,7 +40,7 @@ jobs:
 
       - name: Directory structure before checkout
         run: |
-          tree -L 7
+          tree -a -L 4
 
       - name: Checkout vcpkg-configuration file
         uses: actions/checkout@v4
@@ -52,7 +52,7 @@ jobs:
 
       - name: Directory structure after checkout
         run: |
-          tree -L 7
+          tree -a -L 4
 
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
@@ -80,7 +80,7 @@ jobs:
 
       - name: Directory structure before checkout
         run: |
-          tree -L 7
+          tree -a -L 4
 
       - name: Checkout vcpkg-configuration file
         uses: actions/checkout@v4
@@ -92,7 +92,7 @@ jobs:
 
       - name: Directory structure after checkout
         run: |
-          tree -L 7
+          tree -a -L 4
 
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
