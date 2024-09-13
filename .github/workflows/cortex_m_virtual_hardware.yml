@@ -49,6 +49,7 @@ jobs:
           sparse-checkout: |
             .ci/
           path: ./config
+          sparse-checkout-cone-mode: false
 
       - name: Directory structure after checkout
         run: |
