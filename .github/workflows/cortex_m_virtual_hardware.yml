@@ -47,7 +47,7 @@ jobs:
         with:
           repository: Arm-Examples/mlek-cmsis-pack-examples
           sparse-checkout: |
-            .ci/
+            .ci/vcpkg-configuration.json
           path: ./config
           sparse-checkout-cone-mode: false
 
