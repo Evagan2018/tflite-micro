@@ -97,4 +97,4 @@ jobs:
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
         with: 
-          config: ".ci/vcpkg-configuration.json"
+          config: "config/.ci/vcpkg-configuration.json"
