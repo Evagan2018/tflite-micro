@@ -38,10 +38,6 @@ jobs:
         run: |
           pip install git+https://github.com/ARM-software/avhclient.git@v0.1.10
 
-      - name: Directory structure before checkout
-        run: |
-          tree -a -L 4
-
       - name: Checkout vcpkg-configuration file
         uses: actions/checkout@v4
         with:
@@ -58,7 +54,10 @@ jobs:
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
         with: 
-          config: "config/.ci/vcpkg-configuration.json"
+          config: "config/.ci/vcpkg-configuration.json
+
+      - name: Activate Arm tool license
+        uses: ARM-software/cmsis-actions/armlm@v1
 
   cortex_m_corstone_300:
     runs-on: ubuntu-latest
@@ -79,10 +78,6 @@ jobs:
         run: |
           pip install git+https://github.com/ARM-software/avhclient.git@v0.1.10
 
-      - name: Directory structure before checkout
-        run: |
-          tree -a -L 4
-
       - name: Checkout vcpkg-configuration file
         uses: actions/checkout@v4
         with:
@@ -100,3 +95,7 @@ jobs:
         uses: ARM-software/cmsis-actions/vcpkg@v1
         with: 
           config: "config/.ci/vcpkg-configuration.json"
+
+       - name: Activate Arm tool license
+        uses: ARM-software/cmsis-actions/armlm@v1
+
