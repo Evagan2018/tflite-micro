@@ -53,7 +53,7 @@ jobs:
           pip3 install Pillow
           pip3 install numpy
 
-      - name: Install tools
+      - name: Install Arm tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
         with: 
           config: "tensorflow/lite/micro/tools/github/arm/vcpkg-configuration.json"
@@ -86,16 +86,13 @@ jobs:
           pip3 install Pillow
           pip3 install numpy
 
-      - name: Install tools
+      - name: Install Arm tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
         with: 
           config: "tensorflow/lite/micro/tools/github/arm/vcpkg-configuration.json"
   
       - name: Activate Arm tool license
         uses: ARM-software/cmsis-actions/armlm@v1
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
 
       - name: Test
         run: |
