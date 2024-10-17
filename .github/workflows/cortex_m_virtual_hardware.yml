@@ -34,68 +34,14 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install AVH Client for Python
-        run: |
-          pip install git+https://github.com/ARM-software/avhclient.git@v0.1.10
-
-      - name: Checkout vcpkg-configuration file
-        uses: actions/checkout@v4
-        with:
-          repository: Arm-Examples/mlek-cmsis-pack-examples
-          sparse-checkout: |
-            .ci/vcpkg-configuration.json
-          path: ./config
-          sparse-checkout-cone-mode: false
-
-      - name: Directory structure after checkout
-        run: |
-          tree -a -L 4
-
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
         with: 
-          config: "config/.ci/vcpkg-configuration.json"
+          config: "tensorflow/lite/micro/tools/github/arm/vcpkg-configuration.json"
 
       - name: Activate Arm tool license
         uses: ARM-software/cmsis-actions/armlm@v1
 
-  cortex_m_corstone_300:
-    runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'schedule' && github.repository == 'tensorflow/tflite-micro')
-    name: Cortex-M Corstone 300 (FVP)
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install AVH Client for Python
-        run: |
-          pip install git+https://github.com/ARM-software/avhclient.git@v0.1.10
-
-      - name: Checkout vcpkg-configuration file
-        uses: actions/checkout@v4
-        with:
-          repository: Arm-Examples/mlek-cmsis-pack-examples
-          sparse-checkout: |
-            .ci/vcpkg-configuration.json
-          path: ./config
-          sparse-checkout-cone-mode: false
-
-      - name: Directory structure after checkout
-        run: |
-          tree -a -L 4
-
-      - name: Install tools
-        uses: ARM-software/cmsis-actions/vcpkg@v1
-        with: 
-          config: "config/.ci/vcpkg-configuration.json"
-
-      - name: Activate Arm tool license
-        uses: ARM-software/cmsis-actions/armlm@v1
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
