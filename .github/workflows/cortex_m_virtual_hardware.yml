@@ -98,6 +98,13 @@ jobs:
         run: |
           tensorflow/lite/micro/tools/ci_build/test_cortex_m_corstone_300.sh armclang
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: |
+            tensorflow/
+            gen/
+
   issue-on-error:
     needs: [cortex_m_generic, cortex_m_corstone_300]
     if: ${{ always() && contains(needs.*.result, 'failure') }}
