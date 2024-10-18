@@ -94,9 +94,6 @@ jobs:
       - name: Activate Arm tool license
         uses: ARM-software/cmsis-actions/armlm@v1
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
       - name: Test
         run: |
           tensorflow/lite/micro/tools/ci_build/test_cortex_m_corstone_300.sh armclang
