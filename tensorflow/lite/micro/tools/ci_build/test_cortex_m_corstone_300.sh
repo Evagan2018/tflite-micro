@@ -44,6 +44,7 @@ readable_run make -j$(nproc) -f tensorflow/lite/micro/tools/make/Makefile CO_PRO
 readable_run make -f tensorflow/lite/micro/tools/make/Makefile CO_PROCESSOR=ethos_u OPTIMIZED_KERNEL_DIR=${OPTIMIZED_KERNEL_DIR} TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} TOOLCHAIN=${TOOLCHAIN} test
 
 # Run generic benchmark.
+if [[ $1 != "armclang" ]]; then
 readable_run make -j$(nproc) -f tensorflow/lite/micro/tools/make/Makefile \
   CO_PROCESSOR=ethos_u \
   OPTIMIZED_KERNEL_DIR=${OPTIMIZED_KERNEL_DIR} \
@@ -53,3 +54,4 @@ readable_run make -j$(nproc) -f tensorflow/lite/micro/tools/make/Makefile \
   GENERIC_BENCHMARK_MODEL_PATH=tensorflow/lite/micro/models/person_detect_vela.tflite \
   GENERIC_BENCHMARK_ARENA_SIZE=`expr 150 \* 1024` \
   run_tflm_benchmark
+fi
