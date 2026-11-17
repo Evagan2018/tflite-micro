@@ -1,0 +1,140 @@
+# Proposed builder configuration, not a CMSIS-Toolbox input file.
+# build_pack.py validates selected draft backend settings and classification policy; fields remain provisional.
+# null means unresolved, never "use latest" or "no dependency".
+schema_version: 1
+status: draft
+
+pack:
+  vendor: TensorFlow
+  name: LiteRT
+  version: "1.0.0"
+  description: "TensorFlow Lite for Microcontrollers runtime and kernel components"
+
+# All variants share this component identity; Cvariant selects the backend.
+kernel_component:
+  Cclass: "Machine Learning"
+  Cgroup: LiteRT
+  Csub: Kernel
+
+# A requirement ID below is referenced by variants.requires.
+# Version ranges describe consumer compatibility, not immutable source pins.
+# The generator must distinguish package requirements from backend-specific
+# component conditions. An unused backend must not force its component selection.
+requirements:
+  cmsis:
+    vendor: ARM
+    name: CMSIS
+    version_range: null
+    status: unresolved
+    component:
+      Cclass: CMSIS
+      Cgroup: CORE
+    note: "Verify the CMSIS range and Core selection against the chosen runtime and consumer builds."
+  cmsis_nn:
+    vendor: ARM
+    name: CMSIS-NN
+    version_range: "8.0.0:8.99.99"
+    status: proposed_unverified
+    component:
+      Cclass: CMSIS
+      Cgroup: "NN Lib"
+    note: "Proposed by the renewal plan; verify against the pinned Ethos-U manifest."
+  ethos_u_driver:
+    vendor: ARM
+    name: ethos-u-core-driver
+    version_range: "2.0.0:2.99.99"
+    status: proposed_unverified
+    component: null
+    note: "Proposed major-2 compatibility range; verify API and exact driver component/variant selectors before PDSC generation."
+
+# These are source-list generation settings, not the full consumer test matrix.
+# Repeat all options explicitly so each variant can be evaluated independently.
+variants:
+  reference:
+    Cvariant: Reference
+    requires: [cmsis]
+    make_options:
+      TARGET: cortex_m_generic
+      TARGET_ARCH: cortex-m7
+  cmsis_nn:
+    Cvariant: CMSIS-NN
+    requires: [cmsis, cmsis_nn]
+    make_options:
+      TARGET: cortex_m_generic
+      TARGET_ARCH: cortex-m55
+      OPTIMIZED_KERNEL_DIR: cmsis_nn
+  ethos_u:
+    Cvariant: Ethos-U
+    # NN Lib is required here too, not selected manually by the example.
+    requires: [cmsis, cmsis_nn, ethos_u_driver]
+    make_options:
+      TARGET: cortex_m_generic
+      TARGET_ARCH: cortex-m55
+      OPTIMIZED_KERNEL_DIR: cmsis_nn
+      CO_PROCESSOR: ethos_u
+      ETHOSU_ARCH: u55
+
+source_lists:
+  generator: tensorflow/lite/micro/tools/project_generation/create_tflm_tree.py
+  # Paths are relative to --tflm-root, not the caller's working directory.
+  print_src_files: true
+  no_copy: true
+  # The upstream generator may still download dependencies with no_copy enabled.
+
+third_party:
+  bundled: [flatbuffers, gemmlowp, kissfft, ruy]
+  # Logical dependency IDs; the adapter must map them to actual source paths.
+  external: [cmsis, cmsis_nn, ethos_u_core_driver]
+
+compatibility:
+  defines: [RTE_ML_TF_LITE, RTE_ML_LITERT]
+  # Change each config version only when that file's content changes.
+  config_file_versions:
+    system_setup.cpp: "1.0.0"
+    micro_time.cpp: "1.0.0"
+    debug_log.cpp: "1.0.0"
+
+# Candidate baseline copied from the renewal plan; NOT verified release pins.
+# The publisher must resolve immutable commits and supply provenance.
+# These values must not silently select main/HEAD when resolution fails.
+release_baseline:
+  status: unverified
+  ethos_u_manifest:
+    release: "26.08"
+    file: "26.08.json"
+    repository: null
+    commit: null
+    status: unverified
+  tflite_micro:
+    repository: https://github.com/tensorflow/tflite-micro.git
+    candidate_short_sha: "90b983c2"
+    commit: null
+    status: unverified
+  cmsis_nn:
+    candidate_version: "8.0.0"
+    commit: null
+    status: unverified
+  vela:
+    candidate_version: "5.2.0"
+    status: unverified
+    note: "Provenance/model-tool input; not a runtime pack dependency."
+  ethos_u_driver:
+    candidate_release: "26.08"
+    candidate_api_version: "2.0.0"
+    candidate_pack_version: "2.0.0"
+    tag: null
+    commit: null
+    status: unverified
+
+# Intended validation policy only; enforcement requires future implementation.
+# Draft source inventories may run before release qualification is complete.
+release_policy:
+  require_verified_baseline: true
+  require_resolved_dependency_ranges: true
+  require_resolved_component_selectors: true
+  require_full_source_commits: true
+  require_recorded_builder_revision: true
+  allow_implicit_main_fallback: false
+
+# The core builder does not fetch/stage an example or publish either pack.
+# The publisher owns example pins, release credentials and the driver pack build.
