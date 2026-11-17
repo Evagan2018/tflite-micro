@@ -141,6 +141,7 @@ $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/ceil.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/circular_buffer.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/circular_buffer_common.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/comparisons.cc \
+$(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/comparisons_common.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/concatenation.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/conv.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/conv_common.cc \
@@ -232,6 +233,7 @@ $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/sub_common.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/svdf.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/svdf_common.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/tanh.cc \
+$(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/tanh_common.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/transpose.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/transpose_common.cc \
 $(TENSORFLOW_ROOT)tensorflow/lite/micro/kernels/transpose_conv.cc \

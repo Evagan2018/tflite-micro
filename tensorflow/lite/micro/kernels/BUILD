@@ -254,6 +254,7 @@ tflm_kernel_cc_library(
         "circular_buffer.cc",
         "circular_buffer_common.cc",
         "comparisons.cc",
+        "comparisons_common.cc",
         "concatenation.cc",
         "conv.cc",
         "conv_common.cc",
@@ -341,6 +342,7 @@ tflm_kernel_cc_library(
         "svdf.cc",
         "svdf_common.cc",
         "tanh.cc",
+        "tanh_common.cc",
         "transpose.cc",
         "transpose_common.cc",
         "transpose_conv.cc",
@@ -355,6 +357,7 @@ tflm_kernel_cc_library(
         "add.h",
         "batch_matmul.h",
         "circular_buffer.h",
+        "comparisons.h",
         "conv.h",
         "decode_state.h",
         "decode_state_huffman.h",
@@ -385,6 +388,7 @@ tflm_kernel_cc_library(
         "strided_slice.h",
         "sub.h",
         "svdf.h",
+        "tanh.h",
         "transpose.h",
         "transpose_conv.h",
         "unidirectional_sequence_lstm.h",
@@ -1488,6 +1492,7 @@ tflm_cc_test(
     ],
     deps = [
         ":kernel_runner",
+        ":micro_ops",
         "//tensorflow/lite/micro:micro_common",
         "//tensorflow/lite/micro:op_resolvers",
         "//tensorflow/lite/micro:test_helpers",
@@ -1734,9 +1739,13 @@ KERNEL_SMOKE_TEST_TARGETS = [
     ":add_test",
     ":conv_test",
     ":depthwise_conv_test",
+    ":fully_connected_test",
     ":mul_test",
     ":pooling_test",
     ":softmax_test",
+    ":svdf_test",
+    ":transpose_conv_test",
+    ":unidirectional_sequence_lstm_test",
 ]
 
 test_suite(
@@ -1756,6 +1765,7 @@ tflm_platform_test_suite(
     profiles = [
         "compression",
         "corstone300",
+        "cortex_m4",
         "cortex_m55",
         "hexagon",
         "xtensa_hifi3z",
@@ -1763,6 +1773,7 @@ tflm_platform_test_suite(
     ],
     smoke_profiles = [
         "corstone300",
+        "cortex_m0",
         "xtensa_fusion_f1",
         "xtensa_hifi3z",
         "xtensa_hifi5",
